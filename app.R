@@ -10,10 +10,10 @@ library(shinyWidgets)
 
 my_ui <-
     dashboardPage(
-        title = "von Bertallanffy",
+        title = "von Bertalanffy",
         header = dashboardHeader(
             title = dashboardBrand(
-                title = "von Bertallanffy",
+                title = "von Bertalanffy",
                 color = "primary",
                 image = "https://avatars.githubusercontent.com/u/99745785?s=400&u=eeb3a46b56826f1511e2c387374759c4c5fd109e&v=4"
             )
@@ -290,7 +290,7 @@ shinyApp(
 #     )
 # 
 # # # Application title
-# # titlePanel("Von Bertallanffy"),
+# # titlePanel("Von Bertalanffy"),
 # # 
 # # sidebarLayout(
 # #     
