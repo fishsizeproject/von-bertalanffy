@@ -9,9 +9,9 @@ library(shinyWidgets)
 # devtools::install_github("https://github.com/haddonm/MQMF")
 library(janitor)
 
-vb_dat <- 
-    read_csv("additional_info/Pikeperch age CL.csv") |> 
-    clean_names()
+# vb_dat <- 
+#     read_csv("additional_info/Pikeperch age CL.csv") |> 
+#     clean_names()
 
 
 my_ui <-
