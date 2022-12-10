@@ -1,0 +1,17 @@
+{
+  "cultural_date_format": "%d-%m-%Y",
+  "languages": ["en", "lt"],
+  "translation": [
+      {"en": "Overview", "lt": "Overview (in lt)"},
+      {
+        "en": "Title of the homepage",
+        "lt": "Title of the homepage (in lith)"
+      },
+      {
+        "en": "Parameters",
+        "lt": "lith params"
+      }
+    ]
+}
+
+
