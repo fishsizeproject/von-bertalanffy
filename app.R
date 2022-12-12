@@ -55,7 +55,8 @@ my_ui <-
                         h3("Title of the homepage" |> i18n$t()),
                         p("Info about the website goes here" |> i18n$t()),
                         p("Para 2" |> i18n$t()),
-                        uiOutput(outputId = "front_logo")
+                        column(width = 6, uiOutput(outputId = "front_logo"), 
+                               align = "center")
                         
                 ),
                 
