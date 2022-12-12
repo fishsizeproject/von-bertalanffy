@@ -106,7 +106,20 @@
       {
         "en": "Browse",
         "lt": "lith params"
+      },
+      {
+        "en": "Estimate",
+        "lt": "lith params"
+      },
+      {
+        "en": "Standard error",
+        "lt": "lith params"
+      },
+      {
+        "en": "P-value",
+        "lt": "lith params"
       }
+      
       
       
       
