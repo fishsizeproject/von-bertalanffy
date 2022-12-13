@@ -1,0 +1,719 @@
+---
+title: "VBGC"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(FSA)
+library(FSAdata)
+library(nlstools)
+library(ggplot2)
+library(dplyr)
+
+```
+
+## example from (Derek, 2013)
+
+```{r}
+
+data(Croaker2)
+crm <- filter(Croaker2,sex=="M")
+
+svTypical <- vbStarts(tl~age,data=crm)
+unlist(svTypical)
+
+
+vbTypical <- tl~Linf*(1-exp(-K*(age-t0)))
+fitTypical <- nls(vbTypical,data=crm,start=svTypical)
+FSAmisc::fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",main="")
+
+overview(fitTypical)
+
+#The results from overview() show confidence intervals for the model parameters based on normal distribution
+#theory; however, confidence intervals for parameters in non-linear models are best constructed through bootstrap methods.
+
+#Thus, confidence intervals for the parameters in the typical VBGM:
+
+bootTypical <- nlsBoot(fitTypical,niter=200) # niter should be nearer 1000
+
+confint(bootTypical,plot=TRUE)
+
+#creating a fitted line plot with confidence bounds for the mean length-at-age from the VBGM.
+
+new <- data.frame(age=8)
+predict(fitTypical, new)
+
+ests <- bootTypical$coefboot
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+
+ages2plot <- 0:15
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",xlim=range(ages2plot),main="")
+LCI <- UCI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+LCI[i] <- quantile(pv,0.025)
+UCI[i] <- quantile(pv,0.975)
+}
+
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+
+```
+
+###My data
+
+```{r}
+
+fish<-read.csv("Perch age 2009 2010 KM.csv")
+plot(fish$TL~fish$AgeOto)
+
+#subset males and females
+
+fish_f <- Subset(fish,Sex=="9")
+fish_m <- Subset(fish,Sex=="1")
+
+
+
+```
+
+
+
+## 1. generate reasonable starting values
+
+
+```{r, echo=FALSE}
+
+svTypical <- vbStarts(TL~AgeOto,data=fish)
+unlist(svTypical)
+
+
+#for females
+svTypical_f <- vbStarts(TL~AgeOto,data=fish_f)
+unlist(svTypical_f)
+#for males
+svTypical_m <- vbStarts(TL~AgeOto,data=fish_m)
+unlist(svTypical_m)
+
+```
+
+## 2. estimate the parameters for the nonlinear VBGC
+Age from otoliths
+
+```{r}
+vbTypical <- TL~Linf*(1-exp(-K*(AgeOto-t0)))
+fitTypical <- nls(vbTypical,data=fish,start=svTypical)
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",main="Perch, Kauno marios")
+
+#Summary results of the model fit
+overview(fitTypical)
+
+
+#The results from overview() show confidence intervals for the model parameters based on normal distribution
+#theory; however, confidence intervals for parameters in non-linear models are best constructed through bootstrap methods.
+
+#Thus, confidence intervals for the parameters in the typical VBGM:
+
+bootTypical <- nlsBoot(fitTypical,niter=1000) # niter should be nearer 1000
+
+confint(bootTypical,plot=TRUE)
+
+#Predicted lengths at a given age
+#predicted mean length and corresponding confidence interval for the mean length at age-8 can be constructed with
+
+new <- data.frame(age=8)
+predict(fitTypical, new)
+
+ests <- bootTypical$coefboot
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+#creating a fitted line plot with confidence bounds for the mean length-at-age from the VBGM.
+
+ages2plot <- 0:10  #indicate age range
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",xlim=range(ages2plot),main="Perch, Curonian Lagoon 2009-2010")
+LCI <- UCI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+LCI[i] <- quantile(pv,0.025)
+UCI[i] <- quantile(pv,0.975)
+}
+
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+
+
+```
+
+#for males and females separately
+
+
+```{r}
+#########################################
+###########for males and females separately
+
+#for females
+fitTypical_f <- nls(vbTypical,data=fish_f,start=svTypical_f)
+overview(fitTypical_f)
+
+#for males
+fitTypical_m <- nls(vbTypical,data=fish_m,start=svTypical_m)
+overview(fitTypical_m)
+
+#plot all
+fitPlot(fitTypical_f,xlab="Age",ylab="Total Length (cm)")
+fitPlot(fitTypical_m,xlab="Age",ylab="Total Length (cm)")
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",main="Perch, Kauno marios")
+
+
+#conf intervals for females
+bootTypical_f <- nlsBoot(fitTypical_f,niter=1000) # niter should be nearer 1000
+confint(bootTypical_f,plot=TRUE)
+
+
+#conf intervals for males
+bootTypical_m <- nlsBoot(fitTypical_m,niter=1000) # niter should be nearer 1000
+confint(bootTypical_m,plot=TRUE)
+
+
+#Predicted lengths at a given age - females
+#predicted mean length and corresponding confidence interval for the mean length at age-8 can be constructed with
+
+new_f <- data.frame(age=8)
+predict(fitTypical_f, new_f)
+
+ests_f <- bootTypical_f$coefboot
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+#creating a fitted line plot with confidence bounds for the mean length-at-age from the VBGM.
+
+ages2plot <- 0:10  #indicate age range
+fitPlot(fitTypical_f,xlab="Age",ylab="Total Length (cm)",xlim=range(ages2plot),main="Perch, Curonian Lagoon 2009-2010")
+LCI <- UCI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+LCI[i] <- quantile(pv,0.025)
+UCI[i] <- quantile(pv,0.975)
+}
+
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+```
+
+
+
+Roach. Age from scales
+
+```{r}
+fish<-read.csv("Roach age 2019 KNM.csv")
+plot(fish$TL~fish$Agescale)
+
+svTypical <- vbStarts(TL~Agescale,data=fish)
+unlist(svTypical)
+
+
+vbTypical <- TL~Linf*(1-exp(-K*(Agescale-t0)))
+fitTypical <- nls(vbTypical,data=fish,start=svTypical)
+
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",main="Roach, Kauno marios 2019 from scales")
+
+#Summary results of the model fit
+overview(fitTypical)
+
+
+#The results from overview() show confidence intervals for the model parameters based on normal distribution
+#theory; however, confidence intervals for parameters in non-linear models are best constructed through bootstrap methods.
+
+#Thus, confidence intervals for the parameters in the typical VBGM:
+
+bootTypical <- nlsBoot(fitTypical,niter=1000) # niter should be nearer 1000
+
+confint(bootTypical,plot=TRUE)
+
+#Predicted lengths at a given age
+#predicted mean length and corresponding confidence interval for the mean length at age-8 can be constructed with
+
+new <- data.frame(age=8)
+predict(fitTypical, new)
+
+ests <- bootTypical$coefboot
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+#creating a fitted line plot with confidence bounds for the mean length-at-age from the VBGM.
+
+ages2plot <- 0:14  #indicate age range
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",xlim=range(ages2plot),main="Roach, Kauno marios 2019 from scales")
+LCI <- UCI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+LCI[i] <- quantile(pv,0.025)
+UCI[i] <- quantile(pv,0.975)
+}
+
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+
+```
+
+
+Age from scales? Older data, not sure what was used for ageing 
+
+Roach in KNM
+```{r}
+fish2<-read.csv("Age 1993-2012 KNM.csv")
+colnames(fish2)[1]<-"Species"
+
+#filter kuoja 2003-2004 because very few data in older years
+
+Roach2003_2004 <- fish2 %>% 
+  filter(Species== "Kuoja") %>%
+  filter(Year==2003 |  Year==2004)
+
+
+#generate starting values
+svTypical <- vbStarts(TL~Age,data=Roach2003_2004)
+unlist(svTypical)
+
+#manually change starting Linf, due to fiting problem above
+svTypical[1]<-40
+  
+  
+vbTypical <- TL~Linf*(1-exp(-K*(Age-t0)))
+fitTypical <- nls(vbTypical,data=Roach2003_2004,start=svTypical)
+
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",main="Roach, Kauno marios 2003-2004")
+
+#Summary results of the model fit
+overview(fitTypical)
+
+
+#The results from overview() show confidence intervals for the model parameters based on normal distribution
+#theory; however, confidence intervals for parameters in non-linear models are best constructed through bootstrap methods.
+
+#Thus, confidence intervals for the parameters in the typical VBGM:
+
+bootTypical <- nlsBoot(fitTypical,niter=1000) # niter should be nearer 1000
+
+confint(bootTypical,plot=TRUE)
+
+#Predicted lengths at a given age
+#predicted mean length and corresponding confidence interval for the mean length at age-8 can be constructed with
+
+new <- data.frame(age=8)
+predict(fitTypical, new)
+
+ests <- bootTypical$coefboot
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+#creating a fitted line plot with confidence bounds for the mean length-at-age from the VBGM.
+
+ages2plot <- 0:14  #indicate age range
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",xlim=range(ages2plot),main="Roach, Kauno marios 2003-2004")
+LCI <- UCI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+LCI[i] <- quantile(pv,0.025)
+UCI[i] <- quantile(pv,0.975)
+}
+
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+#########################
+#Roach in the 60s
+
+fish3<-read.csv("Age 1961-1985.csv")
+colnames(fish3)[1]<-"Species"
+
+#filter kuoja in the 60s
+
+Roach60 <- fish3 %>% 
+  filter(Species== "Kuoja") %>%
+  filter(Location=="Kauno marios") %>%
+  filter(Year<1970)
+
+
+#generate starting values
+svTypical <- vbStarts(TL~Age,data=Roach2003_2004)
+unlist(svTypical)
+
+```
+
+Perch in KNM
+
+```{r}
+fish2<-read.csv("Age 1993-2012 KNM.csv")
+colnames(fish2)[1]<-"Species"
+
+#filter eserys 2003-2004 because very few data in older years
+
+Perch2003_2004 <- fish2 %>% 
+  filter(Species== "Eserys") %>%
+  filter(Year==2003 |  Year==2004)
+
+plot(Perch2003_2004$TL~Perch2003_2004$Age)
+
+#generate starting values
+svTypical <- vbStarts(TL~Age,data=Perch2003_2004, methLinf = "oldAge")
+
+
+unlist(svTypical)
+
+#manually change starting Linf, due to fiting problem above
+svTypical[1]<-30
+svTypical[2]<-0.3
+svTypical[3]<-0 
+  
+vbTypical <- TL~Linf*(1-exp(-K*(Age-t0)))
+fitTypical <- nls(vbTypical,data=Perch2003_2004,start=svTypical)
+
+##Error: cannot fit, too linear relationship..?
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",main="Perch, Kauno marios 2003-2004")
+
+#Summary results of the model fit
+overview(fitTypical)
+
+
+#The results from overview() show confidence intervals for the model parameters based on normal distribution
+#theory; however, confidence intervals for parameters in non-linear models are best constructed through bootstrap methods.
+
+#Thus, confidence intervals for the parameters in the typical VBGM:
+
+bootTypical <- nlsBoot(fitTypical,niter=1000) # niter should be nearer 1000
+
+confint(bootTypical,plot=TRUE)
+
+#Predicted lengths at a given age
+#predicted mean length and corresponding confidence interval for the mean length at age-8 can be constructed with
+
+new <- data.frame(age=8)
+predict(fitTypical, new)
+
+ests <- bootTypical$coefboot
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+#creating a fitted line plot with confidence bounds for the mean length-at-age from the VBGM.
+
+ages2plot <- 0:14  #indicate age range
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",xlim=range(ages2plot),main="Roach, Kauno marios 2003-2004")
+LCI <- UCI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+LCI[i] <- quantile(pv,0.025)
+UCI[i] <- quantile(pv,0.975)
+}
+
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+```
+
+#2021-12-08
+
+#Pikeperch Kauno marios
+
+```{r}
+
+fish<-read.csv("Age compiled.csv")
+
+starkis<-fish %>% filter(Species=="Starkis")
+
+plot(starkis$TL~starkis$Age)
+
+#clearly some TL is in mm?
+
+juv<-starkis %>% filter(Age<2)
+plot(juv$TL~juv$Year)
+#1996 stands out, TL should be in mm there? 
+
+
+####### Kauno marios 2019-2020
+
+starkisKWR<-starkis %>% filter(Water.body=="Kauno marios")
+starkisKWR2019_2020<-starkisKWR %>% filter (Year>2018)
+
+
+svTypical <- vbStarts(TL~Age,data=starkisKWR2019_2020)
+unlist(svTypical)
+
+
+vbTypical <- TL~Linf*(1-exp(-K*(Age-t0)))
+fitTypical <- nls(vbTypical,data=starkisKWR2019_2020,start=svTypical)
+
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",main="Pikeperch, Kauno marios 2019-2020")
+
+#Summary results of the model fit
+overview(fitTypical)
+
+
+#The results from overview() show confidence intervals for the model parameters based on normal distribution
+#theory; however, confidence intervals for parameters in non-linear models are best constructed through bootstrap methods.
+
+#Thus, confidence intervals for the parameters in the typical VBGM:
+
+bootTypical <- nlsBoot(fitTypical,niter=1000) # niter should be nearer 1000
+
+confint(bootTypical,plot=TRUE)
+
+#Predicted lengths at a given age
+#predicted mean length and corresponding confidence interval for the mean length at age-8 can be constructed with
+
+new <- data.frame(age=8)
+predict(fitTypical, new)
+
+ests <- bootTypical$coefboot
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+#creating a fitted line plot with confidence bounds for the mean length-at-age from the VBGM.
+
+ages2plot <- 0:10  #indicate age range
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",xlim=range(ages2plot),main="Pikeperch, Kauno marios 2019-2020")
+LCI <- UCI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+LCI[i] <- quantile(pv,0.025)
+UCI[i] <- quantile(pv,0.975)
+}
+
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+
+
+###################Kauno marios 2000-2020
+
+starkisKWR_2000<-starkis %>% filter(Year>1999)
+
+svTypical <- vbStarts(TL~Age,data=starkisKWR_2000)
+unlist(svTypical)
+
+
+vbTypical <- TL~Linf*(1-exp(-K*(Age-t0)))
+fitTypical <- nls(vbTypical,data=starkisKWR_2000,start=svTypical)
+
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",main="Pikeperch, Kauno marios 2000-2020")
+
+#Summary results of the model fit
+overview(fitTypical)
+
+
+#The results from overview() show confidence intervals for the model parameters based on normal distribution
+#theory; however, confidence intervals for parameters in non-linear models are best constructed through bootstrap methods.
+
+#Thus, confidence intervals for the parameters in the typical VBGM:
+
+bootTypical <- nlsBoot(fitTypical,niter=1000) # niter should be nearer 1000
+
+confint(bootTypical,plot=TRUE)
+
+#Predicted lengths at a given age
+#predicted mean length and corresponding confidence interval for the mean length at age-8 can be constructed with
+
+new <- data.frame(age=8)
+predict(fitTypical, new)
+
+ests <- bootTypical$coefboot
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+#creating a fitted line plot with confidence bounds for the mean length-at-age from the VBGM.
+
+ages2plot <- 0:10  #indicate age range
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",xlim=range(ages2plot),main="Pikeperch, Kauno marios 2003-2020")
+LCI <- UCI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+LCI[i] <- quantile(pv,0.025)
+UCI[i] <- quantile(pv,0.975)
+}
+
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+
+
+#################Kauno marios all years
+
+unique(starkisKWR$Year)
+plot(starkisKWR$TL~starkisKWR$Age)
+
+starkisKWR$TLcomb<-paste(starkisKWR$TL, starkisKWR$TL.avg)
+
+starkisKWR$TLcomb<-gsub("NA","", as.character(starkisKWR$TLcomb))
+unique(starkisKWR$TLcomb)
+starkisKWR$TLcomb<-as.numeric(starkisKWR$TLcomb)
+plot(starkisKWR$TLcomb~starkisKWR$Age)
+
+#something is wrong with juvenile ages, probably TL are in mm
+
+juv<-starkisKWR %>% filter (Age<3)
+plot(juv$TL~juv$Year)
+
+#exclude 1996
+
+starkisKWR_no1996<-starkisKWR %>% filter(Year!=1996)
+starkisKWR_no1996$TLcomb<-as.numeric(starkisKWR_no1996$TLcomb)
+
+plot(starkisKWR_no1996$TLcomb~starkisKWR_no1996$Age)
+
+
+#still many juveniles 50-60 cm long...
+#so exclude 1995 with such data
+
+starkisKWR_no1996_5<-starkisKWR_no1996 %>% filter (!Year==1995)
+
+plot(starkisKWR_no1996_5$TLcomb~starkisKWR_no1996_5$Age)
+
+#now looks reasonable 
+
+svTypical <- vbStarts(TLcomb~Age,data=starkisKWR_no1996_5)
+unlist(svTypical)
+
+# #alternative starting values
+# K<-0.3
+# Linf<-70
+# t0<--0.5
+
+vbTypical <- TLcomb~Linf*(1-exp(-K*(Age-t0)))
+fitTypical <- nls(vbTypical,data=starkisKWR_no1996_5,start=svTypical)
+
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",main="Pikeperch, Kauno marios 1961-2020, n=233")
+
+#Summary results of the model fit
+overview(fitTypical)
+
+
+#The results from overview() show confidence intervals for the model parameters based on normal distribution
+#theory; however, confidence intervals for parameters in non-linear models are best constructed through bootstrap methods.
+
+#Thus, confidence intervals for the parameters in the typical VBGM:
+
+bootTypical <- nlsBoot(fitTypical,niter=1000) # niter should be nearer 1000
+
+confint(bootTypical,plot=TRUE)
+
+#Predicted lengths at a given age
+#predicted mean length and corresponding confidence interval for the mean length at age-8 can be constructed with
+
+new <- data.frame(age=8)
+predict(fitTypical, new)
+
+ests <- bootTypical$coefboot
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+#creating a fitted line plot with confidence bounds for the mean length-at-age from the VBGM.
+
+ages2plot <- 0:12  #indicate age range
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",xlim=range(ages2plot),main="Pikeperch, Kauno marios 1961-2020, n=233")
+LCI <- UCI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+LCI[i] <- quantile(pv,0.025)
+UCI[i] <- quantile(pv,0.975)
+}
+
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+
+
+```
+
+#Pikeperch Curonian Lagoon
+
+```{r}
+
+fish<-read.csv("Age compiled.csv")
+
+starkis<-fish %>% filter(Species=="Starkis")
+
+starkisCL<-starkis %>% filter(Water.body=="Curonian Lagoon")
+
+unique(starkisCL$Year)
+
+starkisCL$TLcomb<-paste(starkisCL$TL, starkisCL$TL.avg, starkisCL$TLestimated)
+
+starkisCL$TLcomb<-gsub("NA","", as.character(starkisCL$TLcomb))
+unique(starkisCL$TLcomb)
+starkisCL$TLcomb<-as.numeric(starkisCL$TLcomb)
+plot(starkisCL$TLcomb~starkisCL$Age)
+
+
+svTypical <- vbStarts(TLcomb~Age,data=starkisCL)
+unlist(svTypical)
+
+
+vbTypical <- TLcomb~Linf*(1-exp(-K*(Age-t0)))
+fitTypical <- nls(vbTypical,data=starkisCL,start=svTypical)
+
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",main="Pikeperch, Curonian Lagoon 1949-1981, n=941")
+
+#Summary results of the model fit
+overview(fitTypical)
+
+#The results from overview() show confidence intervals for the model parameters based on normal distribution
+#theory; however, confidence intervals for parameters in non-linear models are best constructed through bootstrap methods.
+
+#Thus, confidence intervals for the parameters in the typical VBGM:
+
+bootTypical <- nlsBoot(fitTypical,niter=1000) # niter should be nearer 1000
+
+confint(bootTypical,plot=TRUE)
+
+#Predicted lengths at a given age
+#predicted mean length and corresponding confidence interval for the mean length at age-8 can be constructed with
+
+new <- data.frame(age=8)
+predict(fitTypical, new)
+
+ests <- bootTypical$coefboot
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+#creating a fitted line plot with confidence bounds for the mean length-at-age from the VBGM.
+
+ages2plot <- 0:12  #indicate age range
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (cm)",xlim=range(ages2plot),main="Pikeperch, Curonian Lagoon 1949-1981, n=941")
+LCI <- UCI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+LCI[i] <- quantile(pv,0.025)
+UCI[i] <- quantile(pv,0.975)
+}
+
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+```
+

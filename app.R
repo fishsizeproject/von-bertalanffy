@@ -8,6 +8,7 @@ library(bslib)
 library(shinyWidgets)
 # devtools::install_github("https://github.com/haddonm/MQMF")
 library(janitor)
+library(FSA)
 
 library(shiny.i18n)
 
@@ -54,46 +55,47 @@ my_ui <-
                         h3("Title of the homepage" |> i18n$t()),
                         p("Info about the website goes here" |> i18n$t()),
                         p("Para 2" |> i18n$t()),
-                        img(src='logos_english-removebg-preview.png', align = "center")
+                        column(width = 6, uiOutput(outputId = "front_logo"), 
+                               align = "center")
                         
                 ),
                 
                 tabItem(tabName = "von_bert",
-                        h1("Von Bertalanffy Growth model" |> i18n$t()),
+                        h1("von Bertalanffy Growth model" |> i18n$t()),
                         br(),
                         fluidRow(
                             column(width = 4,
                                    # b1
-                                   box(title = "Parameter selection",
+                                   box(title = "Parameter selection" |> i18n$t(),
                                        sliderInput(inputId = "vb_maxage",
-                                                   label = "Max age",
+                                                   label = "Max age" |> i18n$t(),
                                                    min = 1, 
                                                    max = 50, 
                                                    value = 5,
                                                    step = 0.5, 
-                                                   post = " years"),
+                                                   post = " years" |> i18n$t()),
                                        sliderInput(inputId = "vb_k",
-                                                   label = "Instantaneous growth rate (K)",
+                                                   label = "Instantaneous growth rate (K)" |> i18n$t(),
                                                    min = 0.05, 
                                                    max = 0.95, 
                                                    value = 0.2, 
                                                    step = 0.05),
                                        sliderInput(inputId = "vb_linf",
-                                                   label =  HTML(paste0("Maximum length (L",tags$sub("\u221E"), ')')),
+                                                   label =  HTML(paste0("Maximum length" |> i18n$t(), " (L", tags$sub("\u221E"), ')')),
                                                    min = 10, 
                                                    max = 100, 
                                                    value = 20, 
                                                    step = 1, 
                                                    post = "cm"),
                                        sliderInput(inputId = "vb_t0",
-                                                   label = HTML(paste0("Age when length = 0cm (t",tags$sub("0"), ')')),
+                                                   label = HTML(paste0("Age when length = 0cm"  |> i18n$t(), " (t", tags$sub("0"), ')')),
                                                    min = -0.5,
                                                    max = 0, 
                                                    value = -0.15, 
                                                    step = 0.01, 
                                                    post = " years"),
                                        sliderInput(inputId = "vb_cvlen",
-                                                   "Amount of variation",
+                                                   "Amount of variation"  |> i18n$t(),
                                                    min = 0, 
                                                    max = 0.5, 
                                                    value = 0.1, 
@@ -102,8 +104,10 @@ my_ui <-
                                    ), 
                                    box(title = "Upload your own length-age data" |> i18n$t(),
                                        width = 12, 
-                                       fileInput("file1", "Choose CSV File" |> i18n$t(),
+                                       fileInput("file1", 
+                                                 "Choose CSV File" |> i18n$t(),
                                                  multiple = FALSE,
+                                                 buttonLabel = "Browse"|> i18n$t(),
                                                  accept = c("text/csv",
                                                             "text/comma-separated-values,text/plain",
                                                             ".csv")),
@@ -112,10 +116,11 @@ my_ui <-
                                        actionButton(inputId = "add_points",
                                                     label = "Add data points" |> i18n$t()),
                                        actionButton(inputId = "calc_VB_pars",
-                                                   label = "Best parameters" |> i18n$t())),
+                                                    label = "Best parameters" |> i18n$t())),
                                    box(title = "Calculate parameters" |> i18n$t(), 
                                        width = 12, 
-                                       tableOutput(outputId = "vb_params_table"))
+                                       tableOutput(outputId = "vb_params_table"), 
+                                       align = "center")
                             ),
                             column(width = 8,
                                    # b2
@@ -138,10 +143,18 @@ my_ui <-
 
 my_server <- function(input, output, session) {
     
-    
+    output$front_logo <- renderUI({
+        if(input$lang_select == "en"){
+            img(src='logos_english-removebg-preview.png', align = "center", width = "75%")
+        } else if(input$lang_select == "lt"){
+            img(src='logos_lithuanian-removebg-preview.png', align = "center", width = "75%")
+        }
+        
+    })
     
     observeEvent(input$lang_select,{
         update_lang(session, input$lang_select)
+        
     })
     
     ### Two functions to be created
@@ -222,8 +235,8 @@ my_server <- function(input, output, session) {
                        age := !!age_colname)
             
             typical <- 
-                vbStarts(length~age,
-                         data = data_new)
+                FSA::vbStarts(length~age,
+                              data = data_new)
             
             vb_func <- length~Linf*(1-exp(-K*(age-t0)))
             
@@ -232,10 +245,30 @@ my_server <- function(input, output, session) {
                     data = data_new,
                     start = typical)
             
-            nls_vb_fit |> 
-                broom::tidy()
             
-        })
+            
+            col1_name <- "Estimate" |> i18n$t() %>% rlang::sym() %>% as.character()
+            col2_name <- "Standard error"  |> i18n$t() %>% rlang::sym()%>% as.character()
+            col3_name <- "P-value"  |> i18n$t() %>% rlang::sym()%>% as.character()
+            
+            
+            
+            nls_vb_fit |> 
+                broom::tidy() |> 
+                # mutate(term = c("Carrying capacity (K)" |> i18n$t(), 
+                #                 "MSY proportion of K" |> i18n$t(), 
+                #                 "Stock biomass to produce MSY" |> i18n$t())) |> 
+                select(!!col1_name := "estimate",
+                       !!col2_name := "std.error",
+                       !!col3_name := "p.value") |> 
+                mutate(my_rownames = c("L<sub>\u221E</sub>", 
+                                       "K",
+                                       "t<sub>0</sub>")) |> 
+                column_to_rownames(var = "my_rownames")
+            
+        }, 
+        rownames = T, 
+        sanitize.text.function = function(x) x)
         
     })
     
@@ -282,14 +315,14 @@ my_server <- function(input, output, session) {
     vb_plot_1 <- reactive({
         
         
-        lab1 <- "Age (years)" %>% rlang::sym() %>% as.character()
-        lab2 <- "Length (cm)" %>% rlang::sym()%>% as.character()
+        lab1 <- "Age (years)" |> i18n$t() %>% rlang::sym() %>% as.character()
+        lab2 <- "Length (cm)"  |> i18n$t() %>% rlang::sym()%>% as.character()
         
         
         plot_data() %>%
             ggplot(aes(x = ages,
                        y = length_a)) +
-            geom_path(size = 1.5, col = "darkblue") +
+            geom_path(linewidth = 1.5, col = "darkblue") +
             xlab(lab1) +
             ylab(lab2) +
             theme_bw(24) +
@@ -301,7 +334,7 @@ my_server <- function(input, output, session) {
     vb_line <- reactive({
         geom_path(aes(x = ages,
                       y = length_a),
-                  size = 1.5, 
+                  linewidth = 1.5, 
                   col = "darkblue", 
                   data = plot_data())
     })

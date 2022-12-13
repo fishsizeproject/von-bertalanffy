@@ -10,7 +10,119 @@
       {
         "en": "Parameters",
         "lt": "lith params"
+      },
+      {
+        "en": "Info about the website goes here",
+        "lt": "lith params"
+      },
+      {
+        "en": "Para 2",
+        "lt": "lith params"
+      },
+      {
+        "en": "von Bertalanffy Growth model",
+        "lt": "lith params"
+      },
+      {
+        "en": "Parameter selection",
+        "lt": "lith params"
+      },
+      {
+        "en": "Max age",
+        "lt": "lith params"
+      },
+      {
+        "en": "Instantaneous growth rate (K)",
+        "lt": "lith params"
+      },
+      {
+        "en": "Maximum length",
+        "lt": "lith params"
+      },
+      {
+        "en": "Age when length = 0cm",
+        "lt": "lith params"
+      },
+      {
+        "en": "Amount of variation",
+        "lt": "lith params"
+      },
+      {
+        "en": "Upload your own length-age data",
+        "lt": "lith params"
+      },
+      {
+        "en": "Add data points",
+        "lt": "lith params"
+      },
+      {
+        "en": "Calculate parameters",
+        "lt": "lith params"
+      },
+      {
+        "en": "Growth curve based on von Bertalanffy parameters",
+        "lt": "lith params"
+      },
+      {
+        "en": "Distribution of sizes in age groups",
+        "lt": "lith params"
+      },
+      {
+        "en": "Please upload a csv file",
+        "lt": "lith params"
+      },
+      {
+        "en": "Select age column:",
+        "lt": "lith params"
+      },
+      {
+        "en": "Select length column:",
+        "lt": "lith params"
+      },
+      {
+        "en": "Length (cm)",
+        "lt": "lith params"
+      },
+      {
+        "en": "Frequency or Probability",
+        "lt": "lith params"
+      },
+      {
+        "en": "years",
+        "lt": "lith params"
+      },
+      {
+        "en": "Choose CSV File",
+        "lt": "lith params"
+      },
+      {
+        "en": "Best parameters",
+        "lt": "lith params"
+      },
+      {
+        "en": "Age (years)",
+        "lt": "lith params"
+      },
+      {
+        "en": "Browse",
+        "lt": "lith params"
+      },
+      {
+        "en": "Estimate",
+        "lt": "lith params"
+      },
+      {
+        "en": "Standard error",
+        "lt": "lith params"
+      },
+      {
+        "en": "P-value",
+        "lt": "lith params"
       }
+      
+      
+      
+      
     ]
 }
 
