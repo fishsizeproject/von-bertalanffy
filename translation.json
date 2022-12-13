@@ -5,11 +5,11 @@
       {"en": "Overview", "lt": "Overview (in lt)"},
       {
         "en": "Title of the homepage",
-        "lt": "Title of the homepage (in lith)"
+        "lt": "Title lt"
       },
       {
         "en": "Parameters",
-        "lt": "lith params"
+        "lt": "Parametrai"
       },
       {
         "en": "Info about the website goes here",
@@ -21,103 +21,103 @@
       },
       {
         "en": "von Bertalanffy Growth model",
-        "lt": "lith params"
+        "lt": "Von Bertalanffy augimo modelis"
       },
       {
         "en": "Parameter selection",
-        "lt": "lith params"
+        "lt": "Parametrų pasirinkimas"
       },
       {
         "en": "Max age",
-        "lt": "lith params"
+        "lt": "Maksimalus amžius"
       },
       {
         "en": "Instantaneous growth rate (K)",
-        "lt": "lith params"
+        "lt": "Augimo greitis (K)"
       },
       {
         "en": "Maximum length",
-        "lt": "lith params"
+        "lt": "Maksimalus ilgis (cm)"
       },
       {
         "en": "Age when length = 0cm",
-        "lt": "lith params"
+        "lt": "Amžius, kai ilgis lygus 0 cm"
       },
       {
         "en": "Amount of variation",
-        "lt": "lith params"
+        "lt": "Sklaidos koeficientas"
       },
       {
         "en": "Upload your own length-age data",
-        "lt": "lith params"
+        "lt": "Įkelkite savo amžiaus-ilgio duomenis"
       },
       {
         "en": "Add data points",
-        "lt": "lith params"
+        "lt": "Pridėti įkeltus duomenis"
       },
       {
         "en": "Calculate parameters",
-        "lt": "lith params"
+        "lt": "Apskaičiuoti augimo parametrus"
       },
       {
         "en": "Growth curve based on von Bertalanffy parameters",
-        "lt": "lith params"
+        "lt": "Augimo kreivė reimiantis von Bertalanffy parametrais"
       },
       {
         "en": "Distribution of sizes in age groups",
-        "lt": "lith params"
+        "lt": "Dydžių pasiskirstymas amžiaus grupėse"
       },
       {
         "en": "Please upload a csv file",
-        "lt": "lith params"
+        "lt": "Įkelkite csv dokumentą"
       },
       {
         "en": "Select age column:",
-        "lt": "lith params"
+        "lt": "Kuris stulpelis nurodo amžių?"
       },
       {
         "en": "Select length column:",
-        "lt": "lith params"
+        "lt": "Kuris stulpelis nurodo ilgį?"
       },
       {
         "en": "Length (cm)",
-        "lt": "lith params"
+        "lt": "Ilgis (cm)"
       },
       {
         "en": "Frequency or Probability",
-        "lt": "lith params"
+        "lt": "Dažnis ar tikimybė"
       },
       {
         "en": "years",
-        "lt": "lith params"
+        "lt": "metai"
       },
       {
         "en": "Choose CSV File",
-        "lt": "lith params"
+        "lt": "Pasirinkite csv dokumentą"
       },
       {
         "en": "Best parameters",
-        "lt": "lith params"
+        "lt": "Labiausiai tinkami parametrai"
       },
       {
         "en": "Age (years)",
-        "lt": "lith params"
+        "lt": "Amžius (metais)"
       },
       {
         "en": "Browse",
-        "lt": "lith params"
+        "lt": "Ieškoti"
       },
       {
         "en": "Estimate",
-        "lt": "lith params"
+        "lt": "Paskaičiavimas"
       },
       {
         "en": "Standard error",
-        "lt": "lith params"
+        "lt": "Standartinė paklaida"
       },
       {
         "en": "P-value",
-        "lt": "lith params"
+        "lt": "P reikšmė"
       }
       
       
