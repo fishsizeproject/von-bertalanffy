@@ -118,10 +118,77 @@
       {
         "en": "P-value",
         "lt": "lith params"
+      },
+      {
+        "en": "Choose length-age data source",
+        "lt": "lith params"
+      },
+      {
+        "en": "Example dataset (first six rows shown only)",
+        "lt": "lith params"
+      },
+      {
+        "en": "Adjust parameter sliders",
+        "lt": "lith params"
+      },
+      {
+        "en": "More information",
+        "lt": "lith params"
+      },
+      {
+        "en": "About VBMs",
+        "lt": "lith params"
+      },
+      {
+        "en": "The development of this app was done by Nature Research Centre (Lithuania) staff during the project “Advanced models, citizen science and big data for sustainable food production and ecological services of inland aquatic ecosystems”, funded from European Regional Development Fund (project No 01.2.2-LMT-K-718-02-0006) under grant agreement with the Research Council of Lithuania (LMTLT).",
+        "lt": "lith params"
+      },
+      {
+        "en": "You can learn more about our other models, research, courses and engagement events on our website https://sif.lt",
+        "lt": "lith params"
+      },
+      {
+        "en": "von Bertalanffy growth models",
+        "lt": "lith params"
+      },
+      {
+        "en": "PARAGRAPH1",
+        "lt": "lith params"
+      },
+      {
+        "en": "PARAGRAPH2",
+        "lt": "lith params"
+      },
+      {
+        "en": "PARAGRAPH3",
+        "lt": "lith params"
+      },
+      {
+        "en": "To see our other models",
+        "lt": "lith params4"
+      },
+      {
+        "en": "click here",
+        "lt": "lith params23"
+      },
+      {
+        "en": "or to our project website",
+        "lt": "lith params1"
+      },
+      {
+        "en": "Research for sustainable inland fisheries",
+        "lt": "lith params444"
+      },
+      {
+        "en": "Use example data",
+        "lt": "lith params444"
+      },
+      {
+        "en": "Upload own data",
+        "lt": "lith params444"
       }
       
-      
-      
+    
       
     ]
 }
