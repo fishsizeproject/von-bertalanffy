@@ -31,7 +31,7 @@ my_ui <-
             sidebarMenu(
                 # style = "height: 90vh; overflow-y: auto;", 
                 menuItem(
-                    text = "About VBMs"  |> i18n$t(), 
+                    text = "About the model"  |> i18n$t(), 
                     tabName = "aboutvbms_tab", 
                     icon = icon("home")
                 ),
@@ -62,22 +62,22 @@ my_ui <-
                             textOutput("res"),
                             title = "von Bertalanffy growth models" |> i18n$t(),
                             # First paragraph
-                            div("PARAGRAPH1"  |> i18n$t()),
+                            div("One of the most common ways to model fish growth is by using the von Bertalanffy growth curve, which described individual fish growth as an asymtotic growth with a annual instantaneous rate of K and asymptotic body length of L_infinity."  |> i18n$t()),
                             br(), # line break between paragraphs
-                            div(img(src = "CarryingCapacity.jpg", 
+                            div(img(src = "TSR.png", 
                                     width = "50%"), 
                                 align = "center"),
                             br(),
                             # Second paragraph
-                            div("PARAGRAPH2"  |> i18n$t()),
+                            div("Using this app you can explore how the model works, upload your own dataset and find best parameters (the dataset is not stored anywhere and will be cleared from the memory as soon as you finish your work) and also explore how variation in growth means that with increasing ages it becomes increasingly difficult to separate age groups from length information alone."  |> i18n$t()),
                             br(), 
-                            div(img(src = "Barbusbarbus_s.png", 
+                            div(img(src = "Cyprinuscarpio_sm.png", 
                                     width = "50%"), 
                                 align = "center"),
                             br(),
                             # Third paragraph
-                            div("PARAGRAPH3"  |> i18n$t()),
-                            br(),
+                            #div("PARAGRAPH3"  |> i18n$t()),
+                            #br(),
                             div("To see our other models"|> i18n$t(), 
                                 a(href = "https://fishsizeproject.github.io/models/", "click here" |> i18n$t()),
                                 "or to our project website"|> i18n$t(),

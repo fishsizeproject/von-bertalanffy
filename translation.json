@@ -4,8 +4,8 @@
   "translation": [
       {"en": "Overview", "lt": "Overview (in lt)"},
       {
-        "en": "Title of the homepage",
-        "lt": "Title lt"
+        "en": "Sustainable inland fisheries",
+        "lt": "Tvari vidaus vandnų žvejyba"
       },
       {
         "en": "Parameters",
@@ -29,7 +29,7 @@
       },
       {
         "en": "Max age",
-        "lt": "Maksimalus amžius"
+        "lt": "Didžiausias amžius"
       },
       {
         "en": "Instantaneous growth rate (K)",
@@ -61,7 +61,7 @@
       },
       {
         "en": "Growth curve based on von Bertalanffy parameters",
-        "lt": "Augimo kreivė reimiantis von Bertalanffy parametrais"
+        "lt": "Augimo kreivė remiantis von Bertalanffy parametrais"
       },
       {
         "en": "Distribution of sizes in age groups",
@@ -121,43 +121,43 @@
       },
       {
         "en": "Choose length-age data source",
-        "lt": "lith params"
+        "lt": "Pasirinkite "
       },
       {
         "en": "Example dataset (first six rows shown only)",
-        "lt": "lith params"
+        "lt": "Pavyzdiniai duomenys (pirmos 6 eilutės)"
       },
       {
         "en": "Adjust parameter sliders",
-        "lt": "lith params"
+        "lt": "Pritaikyti šiuos parametrus"
       },
       {
         "en": "More information",
-        "lt": "lith params"
+        "lt": "Daugiau informacijos"
       },
       {
-        "en": "About VBMs",
-        "lt": "lith params"
+        "en": "About the model",
+        "lt": "Apie modelį"
       },
       {
         "en": "The development of this app was done by Nature Research Centre (Lithuania) staff during the project “Advanced models, citizen science and big data for sustainable food production and ecological services of inland aquatic ecosystems”, funded from European Regional Development Fund (project No 01.2.2-LMT-K-718-02-0006) under grant agreement with the Research Council of Lithuania (LMTLT).",
-        "lt": "lith params"
+        "lt": "Šis modelis buvo sukurtas Gamtos tyrimų centro mokslininkų, projekto „Pažangūs modeliai, piliečių mokslas ir didieji duomenys tvariai vidaus vandenų maisto produkcijai ir ekosistemų paslaugoms“ metu (Numeris 01.2.2-LMT-K-718-02-0006). Projektas finansuotas iš Europos regioninės plėtros fondo lėšų pagal priemonės Nr. 01.2.2-LMT-K-718 veiklą “Mokslininkų iš užsienio pritraukimas vykdyti mokslinius tyrimus”"
       },
       {
         "en": "You can learn more about our other models, research, courses and engagement events on our website https://sif.lt",
-        "lt": "lith params"
+        "lt": "Daugiau apie mūsų tyrimus, modelius, mokymo kursus ir kitas veiklas galite sužinoti tinklapyje https://lydekaipaliepus.lt"
       },
       {
         "en": "von Bertalanffy growth models",
-        "lt": "lith params"
+        "lt": "Von Bertalanffy augimo modelis"
       },
       {
-        "en": "PARAGRAPH1",
-        "lt": "lith params"
+        "en": "One of the most common ways to model fish growth is by using the von Bertalanffy growth curve, which described individual fish growth as an asymtotic growth with a annual instantaneous rate of K and asymptotic body length of L_infinity.",
+        "lt": "Vienas iš labiausiai paplitusių būdų modeliuoti žuvų augimą yra naudoti von Bertalanffy augimo modelį. Šis modelis aprašo individualų augimą dviejų pagrindinių parametrų pagalba - didžiausias pasiekiamas ilgis L_infinity ir metinis augimo greitis (K), kuris aprašo kaip greitai individas artėja prie didžiausio ilgio."
       },
       {
-        "en": "PARAGRAPH2",
-        "lt": "lith params"
+        "en": "Using this app you can explore how the model works, upload your own dataset and find best parameters (the dataset is not stored anywhere and will be cleared from the memory as soon as you finish your work) and also explore how variation in growth means that with increasing ages it becomes increasingly difficult to separate age groups from length information alone.",
+        "lt": "Naudodamiesi šia programa, jūs galite įvertinti kaip Von Bertalanffy modelis modeliuoja ilgį priklausomai nuo pasirinktų parametrų, surasti geriausius parametrus jūsų duomenims (šie duomenys bus ištrinti iš serverio atminties iš karto kai tik baigsite savo darbo sesiją). Taip pat galite įvertinti kaip augimo variacija įtakoja dydžių pasiskirstymą amžiaus grupėse. Pažiūrėkite kaip, priklausomai nuo sklaidos (variacijos) koeficiento didėjant amžiaus grupei, ilgiai vis labiau persidengia."
       },
       {
         "en": "PARAGRAPH3",
@@ -165,27 +165,31 @@
       },
       {
         "en": "To see our other models",
-        "lt": "lith params4"
+        "lt": "Kiti mūsų sukurti modeliai - "
       },
       {
         "en": "click here",
-        "lt": "lith params23"
+        "lt": "spausti čia"
       },
       {
         "en": "or to our project website",
-        "lt": "lith params1"
+        "lt": "daugiau informacijos apie projektą"
       },
       {
         "en": "Research for sustainable inland fisheries",
-        "lt": "lith params444"
+        "lt": "Mokslas tvariai vidaus vandenų žvejybai"
       },
       {
         "en": "Use example data",
-        "lt": "lith params444"
+        "lt": "Naudoti pavyzdinius duomenis"
       },
       {
         "en": "Upload own data",
-        "lt": "lith params444"
+        "lt": "Įkelti savo duomenis"
+      },
+            {
+        "en": "Upload data",
+        "lt": "Įkelti duomenis"
       }
       
     
