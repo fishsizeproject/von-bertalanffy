@@ -52,7 +52,7 @@ my_ui <-
                         selected = "en")
         ),
         body = dashboardBody(
-            tags$head(tags$style("p {font-size: 20px}")),
+            tags$head(tags$style("p {font-size: 18px}")),
             usei18n(i18n),
             tabItems(
                 # Home page tab
