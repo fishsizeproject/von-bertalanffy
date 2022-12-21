@@ -52,24 +52,25 @@ my_ui <-
                         selected = "en")
         ),
         body = dashboardBody(
+            tags$head(tags$style("p {font-size: 20px}")),
             usei18n(i18n),
             tabItems(
                 # Home page tab
                 tabItem(
                     tabName = "aboutvbms_tab",
                     fluidRow(
-                        box(width = 12,
+                        div(width = 12,
                             textOutput("res"),
-                            title = "von Bertalanffy growth models" |> i18n$t(),
+                            h1("About von Bertalanffy growth models" |> i18n$t()),
                             # First paragraph
-                            div("One of the most common ways to model fish growth is by using the von Bertalanffy growth curve, which described individual fish growth as an asymtotic growth with a annual instantaneous rate of K and asymptotic body length of L_infinity."  |> i18n$t()),
+                            p("One of the most common ways to model fish growth is by using the von Bertalanffy growth curve, which describes individual fish growth as an asymtotic growth function with an annual instantaneous growth rate of K and asymptotic body length of L\u221E."  |> i18n$t()),
                             br(), # line break between paragraphs
                             div(img(src = "TSR.png", 
                                     width = "50%"), 
                                 align = "center"),
                             br(),
                             # Second paragraph
-                            div("Using this app you can explore how the model works, upload your own dataset and find best parameters (the dataset is not stored anywhere and will be cleared from the memory as soon as you finish your work) and also explore how variation in growth means that with increasing ages it becomes increasingly difficult to separate age groups from length information alone."  |> i18n$t()),
+                            p("Using this app you can explore how the model works, upload your own dataset and find best parameters (the dataset is not stored anywhere and will be cleared from the memory as soon as you finish your work) and also explore how variation in growth means that with increasing ages it becomes increasingly difficult to separate age groups from length information alone."  |> i18n$t()),
                             br(), 
                             div(img(src = "Cyprinuscarpio_sm.png", 
                                     width = "50%"), 
@@ -78,7 +79,7 @@ my_ui <-
                             # Third paragraph
                             #div("PARAGRAPH3"  |> i18n$t()),
                             #br(),
-                            div("To see our other models"|> i18n$t(), 
+                            p("To see our other models"|> i18n$t(), 
                                 a(href = "https://fishsizeproject.github.io/models/", "click here" |> i18n$t()),
                                 "or to our project website"|> i18n$t(),
                                 a(href = "https://sif.lt", "click here" |> i18n$t()), ".")
@@ -89,7 +90,7 @@ my_ui <-
                 
                 
                 tabItem(tabName = "von_bert",
-                        h1("von Bertalanffy Growth model" |> i18n$t()),
+                        h1("von Bertalanffy growth model" |> i18n$t()),
                         br(),
                         fluidRow(
                             column(width = 4,
@@ -165,7 +166,7 @@ my_ui <-
                 
                 tabItem(
                     tabName = "home_tab",
-                    h3("Research for sustainable inland fisheries"  |> i18n$t()),
+                    h1("Research for sustainable inland fisheries"  |> i18n$t()),
                     p("The development of this app was done by Nature Research Centre (Lithuania) staff during the project “Advanced models, citizen science and big data for sustainable food production and ecological services of inland aquatic ecosystems”, funded from European Regional Development Fund (project No 01.2.2-LMT-K-718-02-0006) under grant agreement with the Research Council of Lithuania (LMTLT)."  |> i18n$t()),
                     p("You can learn more about our other models, research, courses and engagement events on our website https://sif.lt"  |> i18n$t()),
                     img(src='logos_english-removebg-preview.png', align = "center")
@@ -495,7 +496,7 @@ my_server <- function(input, output, session) {
     plot_data <- reactive({
         
         MaxAge <- input$vb_maxage
-        ### select Von Bertalanfy growth parameters
+        ### select von Bertalanfy growth parameters
         vbk <- input$vb_k
         ### select Linf or the asymptotic length
         Linf <- input$vb_linf
@@ -526,7 +527,7 @@ my_server <- function(input, output, session) {
         # xlab = "Amžius, metais", 
         # ylab = "Ilgis, cm", 
         # pch = 19, 
-        # main = "Augimo kreivė, remiantis Von Bertalanffy parametrais")
+        # main = "Augimo kreivė, remiantis von Bertalanffy parametrais")
         
         tibble(ages = ages,
                length_a = l_a) 
@@ -587,7 +588,7 @@ my_server <- function(input, output, session) {
         r$input_dat
         
         MaxAge <- input$vb_maxage
-        ### select Von Bertalanfy growth parameters
+        ### select von Bertalanfy growth parameters
         vbk <- input$vb_k
         ### select Linf or the asymptotic length
         Linf <- input$vb_linf

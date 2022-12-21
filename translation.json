@@ -20,8 +20,8 @@
         "lt": "lith params"
       },
       {
-        "en": "von Bertalanffy Growth model",
-        "lt": "Von Bertalanffy augimo modelis"
+        "en": "von Bertalanffy growth model",
+        "lt": "von Bertalanffy augimo modelis"
       },
       {
         "en": "Parameter selection",
@@ -148,16 +148,16 @@
         "lt": "Daugiau apie mūsų tyrimus, modelius, mokymo kursus ir kitas veiklas galite sužinoti tinklapyje https://lydekaipaliepus.lt"
       },
       {
-        "en": "von Bertalanffy growth models",
-        "lt": "Von Bertalanffy augimo modelis"
+        "en": "About von Bertalanffy growth models",
+        "lt": "Apie von Bertalanffy augimo modelis"
       },
       {
-        "en": "One of the most common ways to model fish growth is by using the von Bertalanffy growth curve, which described individual fish growth as an asymtotic growth with a annual instantaneous rate of K and asymptotic body length of L_infinity.",
-        "lt": "Vienas iš labiausiai paplitusių būdų modeliuoti žuvų augimą yra naudoti von Bertalanffy augimo modelį. Šis modelis aprašo individualų augimą dviejų pagrindinių parametrų pagalba - didžiausias pasiekiamas ilgis L_infinity ir metinis augimo greitis (K), kuris aprašo kaip greitai individas artėja prie didžiausio ilgio."
+        "en": "One of the most common ways to model fish growth is by using the von Bertalanffy growth curve, which describes individual fish growth as an asymtotic growth function with an annual instantaneous growth rate of K and asymptotic body length of L\u221E.",
+        "lt": "Vienas iš labiausiai paplitusių būdų modeliuoti žuvų augimą yra naudoti von Bertalanffy augimo modelį. Šis modelis aprašo individualų augimą dviejų pagrindinių parametrų pagalba - didžiausias pasiekiamas ilgis L\u221E ir metinis augimo greitis (K), kuris aprašo kaip greitai individas artėja prie didžiausio ilgio."
       },
       {
         "en": "Using this app you can explore how the model works, upload your own dataset and find best parameters (the dataset is not stored anywhere and will be cleared from the memory as soon as you finish your work) and also explore how variation in growth means that with increasing ages it becomes increasingly difficult to separate age groups from length information alone.",
-        "lt": "Naudodamiesi šia programa, jūs galite įvertinti kaip Von Bertalanffy modelis modeliuoja ilgį priklausomai nuo pasirinktų parametrų, surasti geriausius parametrus jūsų duomenims (šie duomenys bus ištrinti iš serverio atminties iš karto kai tik baigsite savo darbo sesiją). Taip pat galite įvertinti kaip augimo variacija įtakoja dydžių pasiskirstymą amžiaus grupėse. Pažiūrėkite kaip, priklausomai nuo sklaidos (variacijos) koeficiento didėjant amžiaus grupei, ilgiai vis labiau persidengia."
+        "lt": "Naudodamiesi šia programa, jūs galite įvertinti kaip von Bertalanffy modelis modeliuoja ilgį priklausomai nuo pasirinktų parametrų, surasti geriausius parametrus jūsų duomenims (šie duomenys bus ištrinti iš serverio atminties iš karto kai tik baigsite savo darbo sesiją). Taip pat galite įvertinti kaip augimo variacija įtakoja dydžių pasiskirstymą amžiaus grupėse. Pažiūrėkite kaip, priklausomai nuo sklaidos (variacijos) koeficiento didėjant amžiaus grupei, ilgiai vis labiau persidengia."
       },
       {
         "en": "PARAGRAPH3",
