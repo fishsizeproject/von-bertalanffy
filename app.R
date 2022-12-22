@@ -59,9 +59,11 @@ my_ui <-
                 tabItem(
                     tabName = "aboutvbms_tab",
                     fluidRow(
-                        div(width = 12,
-                            textOutput("res"),
+                        div(
+                            # width = 12,
                             h1("About von Bertalanffy growth models" |> i18n$t()),
+                            textOutput("res"),
+                            # title = "About von Bertalanffy growth models" |> i18n$t(),
                             # First paragraph
                             p("One of the most common ways to model fish growth is by using the von Bertalanffy growth curve, which describes individual fish growth as an asymtotic growth function with an annual instantaneous growth rate of K and asymptotic body length of L\u221E."  |> i18n$t()),
                             br(), # line break between paragraphs
