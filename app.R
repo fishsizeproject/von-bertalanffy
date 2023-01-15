@@ -9,6 +9,7 @@ library(shinyWidgets)
 # devtools::install_github("https://github.com/haddonm/MQMF")
 library(janitor)
 library(FSA)
+library(here)
 
 library(shiny.i18n)
 
@@ -52,7 +53,7 @@ my_ui <-
                         selected = "en")
         ),
         body = dashboardBody(
-            tags$head(tags$style("p {font-size: 18px}")),
+            tags$head(tags$style("p {font-size: 16px}")),
             usei18n(i18n),
             tabItems(
                 # Home page tab
@@ -107,10 +108,10 @@ my_ui <-
                                                    post = " years" |> i18n$t()),
                                        sliderInput(inputId = "vb_k",
                                                    label = "Instantaneous growth rate (K)" |> i18n$t(),
-                                                   min = 0.05, 
-                                                   max = 0.95, 
+                                                   min = 0.01, 
+                                                   max = 0.99, 
                                                    value = 0.2, 
-                                                   step = 0.05),
+                                                   step = 0.01),
                                        sliderInput(inputId = "vb_linf",
                                                    label =  HTML(paste0("Maximum length" |> i18n$t(), " (L", tags$sub("\u221E"), ')')),
                                                    min = 10, 
@@ -215,13 +216,15 @@ my_server <- function(input, output, session) {
     
     r <- reactiveValues(
         input_dat = {
-            read_csv("additional_info/Pikeperch age CL.csv",
-                     show_col_types = FALSE) 
+            "additional_info/Pikeperch age CL.csv" |> 
+            here::here() |> 
+            read_csv(show_col_types = FALSE) 
         }, 
         vb_tab = {
             data_new <- 
-                read_csv("additional_info/Pikeperch age CL.csv",
-                         show_col_types = FALSE)  |> 
+                "additional_info/Pikeperch age CL.csv" |> 
+                here::here() |> 
+                read_csv(show_col_types = FALSE)  |> 
                 rename(length = Length,
                        age = Age)
             
@@ -301,8 +304,9 @@ my_server <- function(input, output, session) {
                      if(req(input$choose_data) == choice1()){
                          
                          r$input_dat <- 
-                             read_csv("additional_info/Pikeperch age CL.csv",
-                                      show_col_types = FALSE)
+                             "additional_info/Pikeperch age CL.csv" |> 
+                             here::here() |> 
+                             read_csv(show_col_types = FALSE)
                          
                          r$age_col <- "Age"
                          r$length_col <-"Length"
@@ -363,8 +367,9 @@ my_server <- function(input, output, session) {
     
     
     output$example_data_head <- renderTable({
-        read_csv("additional_info/Pikeperch age CL.csv",
-                 show_col_types = FALSE)  |> 
+        "additional_info/Pikeperch age CL.csv" |> 
+            here::here() |> 
+            read_csv(show_col_types = FALSE)  |> 
             mutate(Year = as.integer(Year), 
                    Age = as.integer(Age)) |> 
             head() 
@@ -573,6 +578,7 @@ my_server <- function(input, output, session) {
             geom_point(aes(x = !!age_colname,
                            y = !!length_colname),
                        size = 4,
+                       na.rm = TRUE,
                        col = "grey",
                        data = r$input_dat) +
             plot1_line()  
