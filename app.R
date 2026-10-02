@@ -563,6 +563,12 @@ my_server <- function(input, output, session) {
             inputId = "vb_t0",
             value = val_tab$estimate[3]
         )
+        age_colname <- sym(r$age_col)
+        updateSliderInput(
+            session,
+            inputId = "vb_maxage",
+            value = max(r$input_dat[[r$age_col]], na.rm = TRUE)
+        )
     })
 
     plot_data <- reactive({

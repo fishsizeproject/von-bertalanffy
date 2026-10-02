@@ -6,8 +6,11 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+# pak::pak('droglenc/FSAmisc')
+
 library(FSA)
 library(FSAdata)
+library(FSAmisc)
 library(nlstools)
 library(ggplot2)
 library(dplyr)
